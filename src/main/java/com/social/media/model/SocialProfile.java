@@ -1,5 +1,6 @@
 package com.social.media.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,5 +18,6 @@ public class SocialProfile {
     //@OneToOne(mappedBy = "socialProfile") //socialProfile -> FieldName in SocialUser
     @OneToOne
     @JoinColumn(name = "social_user") //Defining the name of the foreign key column
+    @JsonIgnore
     private SocialUser socialUser;
 }
