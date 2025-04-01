@@ -20,4 +20,13 @@ public class SocialProfile {
     @JoinColumn(name = "social_user") //Defining the name of the foreign key column
     @JsonIgnore
     private SocialUser socialUser;
+
+    private String description;
+
+    public void setSocialUser(SocialUser socialUser){
+        this.socialUser = socialUser;
+        if(this.socialUser.getSocialProfile() != this){
+            this.socialUser.setSocialProfile(this);
+        }
+    }
 }
