@@ -23,10 +23,12 @@ public class SocialProfile {
 
     private String description;
 
-    public void setSocialUser(SocialUser socialUser){
-        this.socialUser = socialUser;
-        if(this.socialUser.getSocialProfile() != this){
-            this.socialUser.setSocialProfile(this);
+    public void setSocialUser(SocialUser socialUser) {
+        if (this.socialUser != socialUser) {  // Prevent infinite recursion
+            this.socialUser = socialUser;
+            if (socialUser != null && socialUser.getSocialProfile() != this) {
+                socialUser.setSocialProfile(this);
+            }
         }
     }
 }

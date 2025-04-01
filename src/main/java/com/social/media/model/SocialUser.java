@@ -17,7 +17,7 @@ public class SocialUser {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(mappedBy = "socialUser", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "socialUser", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private SocialProfile socialProfile;
 
     @OneToMany(mappedBy = "socialUser")
@@ -36,8 +36,12 @@ public class SocialUser {
         return Objects.hash(id);
     }
 
-    public void setSocialProfile(SocialProfile socialProfile){
-        socialProfile.setSocialUser(this);
-        this.socialProfile = socialProfile;
+    public void setSocialProfile(SocialProfile socialProfile) {
+        if (this.socialProfile != socialProfile) {  // Prevent infinite recursion
+            this.socialProfile = socialProfile;
+            if (socialProfile != null && socialProfile.getSocialUser() != this) {
+                socialProfile.setSocialUser(this);
+            }
+        }
     }
 }
